@@ -1,0 +1,5 @@
+com:
+  poi:
+    poiutils:
+      templates:
+        report: \\templates\\xls\\report.xlsx
