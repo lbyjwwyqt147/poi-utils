@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,7 +36,7 @@ public class ExcelExportUtil {
 	 * @param endCell   总共列数
 	 * @param regions
 	 */
-	public static void initXls(Sheet sheet,int startRow,List<Map<String,Object>> dataList,List<CellRangeAddress> regions,int startCell,int endCell,boolean flag){
+	public static void initXls(Sheet sheet, int startRow, CopyOnWriteArrayList<ConcurrentMap<String,Object>> dataList, List<CellRangeAddress> regions, int startCell, int endCell, boolean flag){
 		try {
 			int shiftStart = startRow+1;
 			Row mbRow = sheet.getRow(startRow);
@@ -90,8 +92,22 @@ public class ExcelExportUtil {
 	}
 
 
-	public static void produceExcelDatas(HttpServletResponse response,String xlsPath,
-								 List<Map<String,Object>> dataList,int startRow,String xlsName,String descripe,String otherJsonParams,int startCell,int endCell,boolean flag,List<CellRangeAddress> ... regions){
+	/**
+	 * 将数据填充到excel 模板中
+	 * @param response
+	 * @param xlsPath
+	 * @param dataList
+	 * @param startRow
+	 * @param xlsName
+	 * @param descripe
+	 * @param otherJsonParams
+	 * @param startCell
+	 * @param endCell
+	 * @param flag
+	 * @param regions
+	 */
+	public static void produceExcelDatas(HttpServletResponse response, String xlsPath,
+										 CopyOnWriteArrayList<ConcurrentMap<String,Object>> dataList, int startRow, String xlsName, String descripe, String otherJsonParams, int startCell, int endCell, boolean flag, List<CellRangeAddress> ... regions){
 		try {
 			InputStream in = new FileInputStream(new File(xlsPath));
 			Workbook work = null;
@@ -154,7 +170,7 @@ public class ExcelExportUtil {
 	* @return void 返回类型
 	 */
 	public static void exportXLS(HttpServletResponse response,String xlsPath,
-			List<Map<String,Object>> dataList,int startRow,String xlsName,int startCell,int endCell,boolean flag,List<CellRangeAddress> ... regions){
+								 CopyOnWriteArrayList<ConcurrentMap<String,Object>> dataList,int startRow,String xlsName,int startCell,int endCell,boolean flag,List<CellRangeAddress> ... regions){
 		try {
 			InputStream in = new FileInputStream(new File(xlsPath));
 			Workbook work = null;
@@ -189,7 +205,7 @@ public class ExcelExportUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void exportXLS(HttpServletResponse response,String xlsPath,
-			List<Map<String,Object>> dataList,int startRow,String xlsName,String descripe,String otherJsonParams,int startCell,int endCell,boolean flag,List<CellRangeAddress> ... regions){
+								 CopyOnWriteArrayList<ConcurrentMap<String,Object>> dataList,int startRow,String xlsName,String descripe,String otherJsonParams,int startCell,int endCell,boolean flag,List<CellRangeAddress> ... regions){
 		try {
 			InputStream in = new FileInputStream(new File(xlsPath));
 			Workbook work = null;
